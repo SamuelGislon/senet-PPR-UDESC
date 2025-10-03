@@ -31,24 +31,6 @@ Interface com tema egípcio, regras clássicas (bloqueios, capturas, casas espec
 
 > A aplicação está configurada para **não permitir redimensionamento** (menu, jogo, vitória).
 
-### 2) Linha de comando (Maven Wrapper)
-
-Clone e entre na pasta do projeto:
-
-```bash
-git clone https://github.com/<seu-usuario>/<seu-repo>.git
-cd <seu-repo>
-```
-
-Compile:
-
-```bash
-# Linux/Mac
-./mvnw -q clean package
-
-# Windows
-mvnw -q clean package
-```
 ---
 ## Estrutura relevante do projeto
 
