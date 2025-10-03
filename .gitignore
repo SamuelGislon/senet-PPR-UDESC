@@ -1,0 +1,49 @@
+########################################
+# Java/Maven + IntelliJ (JavaFX ready) #
+########################################
+
+# ===== Maven =====
+target/
+
+# Maven Wrapper (mantenha versionado para facilitar "clonar e rodar")
+!.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+!.mvn/wrapper/MavenWrapperDownloader.java
+mvnw
+mvnw.cmd
+
+# ===== IntelliJ IDEA =====
+# Ignora tudo da IDE local
+.idea/
+*.iml
+# Diretório de build do IntelliJ (diferente do Maven)
+out/
+
+# ===== Eclipse (por via das dúvidas) =====
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# ===== NetBeans =====
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# ===== VS Code =====
+.vscode/
+
+# ===== SO / Diversos =====
+.DS_Store
+Thumbs.db
+*.log
+
+# ===== Java / Geral =====
+# (Arquivos comuns gerados por ferramentas/plugins)
+hs_err_pid*
+replay_pid*

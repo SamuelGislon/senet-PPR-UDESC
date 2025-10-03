@@ -1,0 +1,107 @@
+@font-face {
+    src: url("../fonts/CinzelDecorative-Regular.ttf");
+}
+.title-egypt { -fx-font-family: "Cinzel Decorative"; }
+.btn-egypt   { -fx-font-family: "Cinzel Decorative"; }
+
+/* Fundo estilo "papiro" com leve textura de cor */
+.menu-root {
+    -fx-background-color:
+            radial-gradient(center 50% 10%, radius 120%, rgba(255,255,255,0.35), rgba(255,255,255,0)),
+            linear-gradient(to bottom, #f3e7c7, #ead9ab 55%, #e3cf97);
+}
+
+/* Cartela central com moldura e sombra suave */
+.menu-card {
+    -fx-background-color:
+            linear-gradient(#f5e8c9, #efe0b6),
+            linear-gradient(#e7c88d, #caa566);
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 16;
+    -fx-border-color: #6b4f27;
+    -fx-border-width: 3;
+    -fx-border-radius: 16;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.15) , 20, 0.2 , 0 , 6 );
+    -fx-min-width: 320px;
+}
+
+/* Título com aparência “entalhada” */
+.title-egypt {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3b2e1a;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 8, 0.2, 0, 2);
+    -fx-letter-spacing: 2px;           /* dá um respiro entre letras */
+}
+
+/* Botões dourados com relevo */
+.btn-egypt {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2b1d0e;
+
+    -fx-background-color:
+            linear-gradient(#f1d38b, #d9aa3e),
+            linear-gradient(#ffe9a9, #d8b46a);
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 10;
+    -fx-padding: 10 18 10 18;
+    -fx-border-color: #7a5a2c;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+}
+
+.btn-egypt:hover {
+    -fx-background-color:
+            linear-gradient(#f6e0a7, #e2b24a),
+            linear-gradient(#fff0bd, #e2c27c);
+    -fx-cursor: hand;
+}
+
+.btn-egypt:pressed {
+    -fx-background-color:
+            linear-gradient(#d9aa3e, #f1d38b),
+            linear-gradient(#d8b46a, #ffe9a9);
+    -fx-translate-y: 1px;
+}
+
+.btn-egypt:focused {
+    -fx-effect: dropshadow(gaussian, rgba(122,90,44,0.6), 10, 0.3, 0, 0);
+    -fx-border-color: #a5793b;
+}
+
+/* Botão mini, discreto, canto superior direito (atalho "Ver Vitória") */
+.btn-mini-atalho {
+    -fx-focus-traversable: false;
+    -fx-min-height: 24px;
+    -fx-pref-height: 24px;
+    -fx-pref-width: 110px;             /* ajusta se quiser menor/maior */
+    -fx-max-width: 110px;
+
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Cinzel Decorative", "Times New Roman", serif;
+
+    -fx-text-fill: #3b2e1a;
+    -fx-background-color: rgba(0,0,0,0.0);
+    -fx-border-color: rgba(59,46,26,0.35);
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 0 8 0 8;
+}
+
+.btn-mini-atalho:hover {
+    -fx-background-color: rgba(0,0,0,0.06);
+    -fx-border-color: rgba(59,46,26,0.45);
+    -fx-cursor: hand;
+}
+
+.btn-mini-atalho:pressed {
+    -fx-translate-y: 1px;
+}
+
+.btn-mini-atalho:focused {
+    -fx-effect: dropshadow(gaussian, rgba(59,46,26,0.35), 8, 0.3, 0, 0);
+    -fx-border-color: #a5793b;
+}
