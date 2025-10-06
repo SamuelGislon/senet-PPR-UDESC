@@ -10,11 +10,15 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import br.com.senet.model.EstadoJogo;
 import br.com.senet.model.Tabuleiro;
 import br.com.senet.model.ObservadorEstado;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class VisaoJogo implements ObservadorEstado {
@@ -42,6 +46,16 @@ public class VisaoJogo implements ObservadorEstado {
 
     private java.util.function.Consumer<String> onVitoria;
 
+    private final Map<Integer, Image> iconesPorIndice = new HashMap<>();
+    private static final Object[][] ICON_DEFS = new Object[][]{
+            {14, "/images/icon_casa15.png"},
+            {25, "/images/icon_casa26.png"},
+            {26, "/images/icon_casa27.png"},
+            {27, "/images/icon_casa28.png"},
+            {28, "/images/icon_casa29.png"},
+            {29, "/images/icon_casa30.png"}
+    };
+
     public void onVitoria(java.util.function.Consumer<String> c) {
         this.onVitoria = c;
     }
@@ -54,7 +68,7 @@ public class VisaoJogo implements ObservadorEstado {
     public VisaoJogo() {
         root.setPadding(new Insets(12));
 
-        HBox linhaTopo = new HBox(12, btnVoltar, btnAjuda, lblTopo);
+        HBox linhaTopo = new HBox(12, lblTopo, btnVoltar, btnAjuda);
         linhaTopo.setAlignment(Pos.CENTER_LEFT);
 
         VBox top = new VBox(6, linhaTopo, lblMensagem);
@@ -92,6 +106,15 @@ public class VisaoJogo implements ObservadorEstado {
                 : null;
         if (cssJogo != null) {
             root.getStylesheets().add(cssJogo);
+        }
+
+        for (Object[] def : ICON_DEFS) {
+            int idx = (Integer) def[0];
+            String path = (String) def[1];
+            var url = getClass().getResource(path);
+            if (url != null) {
+                iconesPorIndice.put(idx, new Image(url.toExternalForm()));
+            }
         }
     }
 
@@ -137,12 +160,12 @@ public class VisaoJogo implements ObservadorEstado {
         if (protegida) p.getStyleClass().add("cell-protected");
         if (dono == jogadorAtual && dono != -1) p.getStyleClass().add("cell-turn");
 
-        Label lbl = new Label(String.valueOf(indice));
+        Label lbl = new Label(String.valueOf(indice + 1));
         lbl.getStyleClass().add("cell-index");
         StackPane.setAlignment(lbl, Pos.TOP_LEFT);
         lbl.setPadding(new Insets(4));
 
-        // marcador Jogador A = círculo
+        // Jogador A = círculo
         // Jogador B = triângulo
         Node marcador;
         if (dono == -1) {
@@ -161,7 +184,18 @@ public class VisaoJogo implements ObservadorEstado {
             marcador = tri;
         }
 
-        p.getChildren().addAll(lbl, marcador);
+        // ícone especial
+        if (iconesPorIndice.containsKey(indice)) {
+            ImageView iv = new ImageView(iconesPorIndice.get(indice));
+            iv.setPreserveRatio(true);
+            iv.setFitWidth(34);
+            iv.setOpacity(0.70);
+            iv.setMouseTransparent(true);
+            StackPane.setAlignment(iv, Pos.CENTER);
+            p.getChildren().addAll(lbl, iv, marcador);
+        } else {
+            p.getChildren().addAll(lbl, marcador);
+        }
 
         p.setOnMouseClicked(me -> {
             if (me.getButton() == MouseButton.PRIMARY && onClickCasa != null) {
