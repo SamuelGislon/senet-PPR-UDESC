@@ -42,8 +42,6 @@ public class VisaoJogo implements ObservadorEstado {
     private Runnable onAjuda;
     private Runnable onPassar;
 
-    private int valorDado = 0;
-
     private java.util.function.Consumer<String> onVitoria;
 
     private final Map<Integer, Image> iconesPorIndice = new HashMap<>();
@@ -56,14 +54,8 @@ public class VisaoJogo implements ObservadorEstado {
             {29, "/images/icon_casa30.png"}
     };
 
-    public void onVitoria(java.util.function.Consumer<String> c) {
-        this.onVitoria = c;
-    }
-
-    public void dispararVitoria(String vencedor) {
-        if (onVitoria != null)
-            onVitoria.accept(vencedor);
-    }
+    public void onVitoria(java.util.function.Consumer<String> c) { this.onVitoria = c; }
+    public void dispararVitoria(String vencedor) { if (onVitoria != null) onVitoria.accept(vencedor); }
 
     public VisaoJogo() {
         root.setPadding(new Insets(12));
@@ -79,7 +71,7 @@ public class VisaoJogo implements ObservadorEstado {
         grid.setVgap(4);
         root.setCenter(grid);
 
-        btnPassar.setDisable(true); // começa desabilitado
+        btnPassar.setDisable(true);
         HBox bottom = new HBox(12, btnRolar, lblDado, btnPassar);
         bottom.setAlignment(Pos.CENTER_LEFT);
         bottom.setPadding(new Insets(8, 0, 0, 0));
@@ -104,17 +96,13 @@ public class VisaoJogo implements ObservadorEstado {
         String cssJogo = getClass().getResource("/styles/jogo.css") != null
                 ? getClass().getResource("/styles/jogo.css").toExternalForm()
                 : null;
-        if (cssJogo != null) {
-            root.getStylesheets().add(cssJogo);
-        }
+        if (cssJogo != null) root.getStylesheets().add(cssJogo);
 
         for (Object[] def : ICON_DEFS) {
             int idx = (Integer) def[0];
             String path = (String) def[1];
             var url = getClass().getResource(path);
-            if (url != null) {
-                iconesPorIndice.put(idx, new Image(url.toExternalForm()));
-            }
+            if (url != null) iconesPorIndice.put(idx, new Image(url.toExternalForm()));
         }
     }
 
@@ -147,14 +135,14 @@ public class VisaoJogo implements ObservadorEstado {
         }
 
         lblMensagem.setText(estado.getMensagem() + "  |  Turno: " + estado.nomeDoJogador(estado.getJogadorAtualId()));
-        lblDado.setText("Dado: " + (valorDado == 0 ? "-" : valorDado));
+        int dado = estado.getUltimoDado(); // <<< lê do Model
+        lblDado.setText("Dado: " + (dado == 0 ? "-" : dado));
     }
 
     private StackPane criarCelula(int indice, int dono, int jogadorAtual, boolean protegida, boolean bloqueio) {
         StackPane p = new StackPane();
         p.setPrefSize(80, 80);
 
-        // classes base das casas
         p.getStyleClass().add("cell");
         if (bloqueio) p.getStyleClass().add("cell-block");
         if (protegida) p.getStyleClass().add("cell-protected");
@@ -165,8 +153,6 @@ public class VisaoJogo implements ObservadorEstado {
         StackPane.setAlignment(lbl, Pos.TOP_LEFT);
         lbl.setPadding(new Insets(4));
 
-        // Jogador A = círculo
-        // Jogador B = triângulo
         Node marcador;
         if (dono == -1) {
             marcador = new Label("");
@@ -179,12 +165,11 @@ public class VisaoJogo implements ObservadorEstado {
         } else {
             Polygon tri = new Polygon(0.0, -18.0, -16.0, 14.0, 16.0, 14.0);
             tri.setFill(Color.BLACK);
-            tri.setStroke(Color.WHITE);   // contorno branco
+            tri.setStroke(Color.WHITE);
             tri.setStrokeWidth(2.5);
             marcador = tri;
         }
 
-        // ícone especial
         if (iconesPorIndice.containsKey(indice)) {
             ImageView iv = new ImageView(iconesPorIndice.get(indice));
             iv.setPreserveRatio(true);
@@ -235,15 +220,5 @@ public class VisaoJogo implements ObservadorEstado {
             i = j;
         }
         return res;
-    }
-
-    public void setValorDado(int v) {
-        this.valorDado = v;
-    }
-    public int  getValorDado() {
-        return valorDado;
-    }
-    public void zerarDado() {
-        this.valorDado = 0;
     }
 }
