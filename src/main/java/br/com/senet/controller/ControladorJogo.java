@@ -160,7 +160,7 @@ public class ControladorJogo {
 
             aplicarEfeitoPosMovimento_Agua(tab, pecaOrigem);
 
-            estado.setMensagem("Peça movida para " + pecaOrigem.getPosicao() + ".");
+            estado.setMensagem("Peça movida para " + (pecaOrigem.getPosicao() + 1) + ".");
             estado.notificarMudanca();
             return true;
 
