@@ -4,14 +4,12 @@
 .title-egypt { -fx-font-family: "Cinzel Decorative"; }
 .btn-egypt   { -fx-font-family: "Cinzel Decorative"; }
 
-/* Fundo estilo "papiro" com leve textura de cor */
 .menu-root {
     -fx-background-color:
             radial-gradient(center 50% 10%, radius 120%, rgba(255,255,255,0.35), rgba(255,255,255,0)),
             linear-gradient(to bottom, #f3e7c7, #ead9ab 55%, #e3cf97);
 }
 
-/* Cartela central com moldura e sombra suave */
 .menu-card {
     -fx-background-color:
             linear-gradient(#f5e8c9, #efe0b6),
@@ -25,7 +23,6 @@
     -fx-min-width: 320px;
 }
 
-/* Título com aparência “entalhada” */
 .title-egypt {
     -fx-font-size: 36px;
     -fx-font-weight: bold;
@@ -34,7 +31,6 @@
     -fx-letter-spacing: 2px;           /* dá um respiro entre letras */
 }
 
-/* Botões dourados com relevo */
 .btn-egypt {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
@@ -70,12 +66,11 @@
     -fx-border-color: #a5793b;
 }
 
-/* Botão mini, discreto, canto superior direito (atalho "Ver Vitória") */
 .btn-mini-atalho {
     -fx-focus-traversable: false;
     -fx-min-height: 24px;
     -fx-pref-height: 24px;
-    -fx-pref-width: 110px;             /* ajusta se quiser menor/maior */
+    -fx-pref-width: 110px;
     -fx-max-width: 110px;
 
     -fx-font-size: 11px;

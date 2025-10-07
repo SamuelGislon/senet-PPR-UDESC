@@ -1,6 +1,7 @@
 package br.com.senet;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -26,12 +27,17 @@ public class Aplicacao extends Application {
         visaoMenu = new VisaoMenu();
         cena = new Scene(visaoMenu.getRoot(), 900, 360);
 
-        new ControladorMenu(
-                visaoMenu,
-                getHostServices(),
+        ControladorMenu controladorMenu = new ControladorMenu(
                 this::iniciarJogo,
-                () -> abrirTelaVitoria("Jogador A") // atalho para testar a tela de vitória e não precisar jogar tudo
+                () -> abrirTelaVitoria("Jogador A"),
+                () -> getHostServices().showDocument("https://www.google.com"),
+                Platform::exit
         );
+
+        visaoMenu.onJogar(controladorMenu::jogar);
+        visaoMenu.onVerVitoria(controladorMenu::verVitoria);
+        visaoMenu.onAjuda(controladorMenu::ajuda);
+        visaoMenu.onSair(controladorMenu::sair);
 
         stage.setTitle("SENET - MVC (JavaFX)");
         stage.setScene(cena);
@@ -45,17 +51,22 @@ public class Aplicacao extends Application {
         Tabuleiro tabuleiro = new Tabuleiro(30, 5);
         EstadoJogo estado   = new EstadoJogo(tabuleiro);
         VisaoJogo visaoJogo = new VisaoJogo();
-        ControladorJogo controladorJogo = new ControladorJogo(estado, visaoJogo);
+        ControladorJogo controladorJogo = new ControladorJogo(estado);
 
         estado.anexar(visaoJogo);
         estado.notificarMudanca();
 
+        visaoJogo.onRolarDado(controladorJogo::rolarDado);
+        visaoJogo.onPassar(controladorJogo::passarVez);
+        visaoJogo.onClickCasa(controladorJogo::clicarCasa);
+
         visaoJogo.onVoltarMenu(this::voltarMenu);
         visaoJogo.onAjuda(() -> getHostServices().showDocument("https://www.google.com"));
-
         visaoJogo.onVitoria(this::abrirTelaVitoria);
 
         cena.setRoot(visaoJogo.getRoot());
+        stage.setWidth(900);
+        stage.setHeight(520);
     }
 
     private void abrirTelaVitoria(String vencedor) {
@@ -64,10 +75,14 @@ public class Aplicacao extends Application {
         vv.onJogarNovamente(this::iniciarJogo);
         vv.onVoltarMenu(this::voltarMenu);
         cena.setRoot(vv.getRoot());
+        stage.setWidth(900);
+        stage.setHeight(360);
     }
 
     private void voltarMenu() {
         cena.setRoot(visaoMenu.getRoot());
+        stage.setWidth(900);
+        stage.setHeight(360);
     }
 
     public static void main(String[] args) {
