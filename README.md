@@ -3,6 +3,8 @@
 Jogo **Senet** implementado em **Java 17** com **JavaFX**, seguindo os padrões **MVC** e **Observer**.
 Interface com tema egípcio, regras clássicas (bloqueios, capturas, casas especiais) e telas de **Menu**, **Jogo** e **Vitória**.
 
+> 📜 **Regras do Jogo:** veja o documento completo em [RULES.md](RULES.md).
+
 ---
 
 ## Requisitos
