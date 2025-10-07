@@ -33,7 +33,6 @@ public class VisaoJogo implements ObservadorEstado {
 
     private final Button btnVoltar = new Button("Voltar ao Menu");
     private final Button btnAjuda  = new Button("Ajuda");
-
     private final Button btnPassar = new Button("Passar Vez");
 
     private Runnable onRolarDado;
@@ -43,6 +42,7 @@ public class VisaoJogo implements ObservadorEstado {
     private Runnable onPassar;
 
     private java.util.function.Consumer<String> onVitoria;
+    private boolean vitoriaNotificada = false;
 
     private final Map<Integer, Image> iconesPorIndice = new HashMap<>();
     private static final Object[][] ICON_DEFS = new Object[][]{
@@ -114,8 +114,6 @@ public class VisaoJogo implements ObservadorEstado {
     public void onAjuda(Runnable action) { this.onAjuda = action; }
     public void onPassar(Runnable action) { this.onPassar = action; }
 
-    public void setPassarVezHabilitado(boolean habilitar) { btnPassar.setDisable(!habilitar); }
-
     @Override
     public void atualizar(EstadoJogo estado) {
         Tabuleiro t = estado.getTabuleiro();
@@ -135,8 +133,23 @@ public class VisaoJogo implements ObservadorEstado {
         }
 
         lblMensagem.setText(estado.getMensagem() + "  |  Turno: " + estado.nomeDoJogador(estado.getJogadorAtualId()));
-        int dado = estado.getUltimoDado(); // <<< lê do Model
+        int dado = estado.getUltimoDado();
         lblDado.setText("Dado: " + (dado == 0 ? "-" : dado));
+
+        boolean habilitarPassar = false;
+        if (dado != 0) {
+            boolean temMov = estado.existeAlgumMovimento(dado);
+            habilitarPassar = !temMov;
+        }
+        btnPassar.setDisable(!habilitarPassar);
+
+        if (estado.alguemVenceu() && !vitoriaNotificada) {
+            vitoriaNotificada = true;
+            dispararVitoria(estado.nomeDoJogador(estado.getJogadorAtualId()));
+        }
+        if (!estado.alguemVenceu()) {
+            vitoriaNotificada = false;
+        }
     }
 
     private StackPane criarCelula(int indice, int dono, int jogadorAtual, boolean protegida, boolean bloqueio) {
@@ -208,7 +221,6 @@ public class VisaoJogo implements ObservadorEstado {
         int n = tab.getTamanho();
         int[] casas = tab.getCasas();
         boolean[] res = new boolean[n];
-
         int i = 0;
         while (i < n) {
             if (casas[i] == -1) { i++; continue; }
